@@ -1,0 +1,9 @@
+parameters:
+  venimus.search.engine.class: 'Venimus\VenimusSearchBundle\Engine\Search'
+  venimus.search.resultset_factory.class: 'Venimus\VenimusSearchBundle\Factory\IdentifiersResultSetFactory'
+  venimus.search.storage.doctrine.entity_class: 'Venimus\VenimusSearchBundle\Entity\Index'
+
+services:
+  venimus.search.storage: '@venimus.search.storage.doctrine'
+#  venimus.search.storage: '@venimus.search.storage.memory'
+

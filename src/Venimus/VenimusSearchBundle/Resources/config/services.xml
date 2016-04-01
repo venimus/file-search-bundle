@@ -1,0 +1,30 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="venimus.search.engine.class">Venimus\VenimusSearchBundle\Engine\Search</parameter>
+        <parameter key="venimus.search.storage.memory.class">Venimus\VenimusSearchBundle\Engine\Storage\Memory</parameter>
+        <parameter key="venimus.search.storage.doctrine.entity_class">Venimus\VenimusSearchBundle\Entity\Index</parameter>
+        <parameter key="venimus.search.resultset_factory.class">Venimus\VenimusSearchBundle\Factory\IdentifiersResultSetFactory</parameter>
+    </parameters>
+
+    <services>
+        <service id="venimus.search.engine" class="%venimus.search.engine.class%">
+            <argument id="venimus.search.storage" type="service"/>
+            <argument id="venimus.search.resultset_factory" type="service"/>
+        </service>
+
+        <service id="venimus.search.storage.memory" class="%venimus.search.storage.memory.class%"/>
+
+        <!-- class attr is ignored because this uses a factory for %venimus.search.storage.doctrine.entity_class% -->
+        <service id="venimus.search.storage.doctrine" class="Doctrine\ORM\EntityRepository">
+            <factory service="doctrine" method="getRepository"/>
+            <argument>%venimus.search.storage.doctrine.entity_class%</argument>
+        </service>
+
+        <service id="venimus.search.resultset_factory" class="%venimus.search.resultset_factory.class%"/>
+    </services>
+</container>
